@@ -23,7 +23,13 @@ class Balatro
   end
 
   def pick_hand
-    [deck.shift]
+    h = []
+
+    HAND_SIZE.times do
+      h.push(deck.shift)
+    end
+
+    h
   end
 
   def show_hand
