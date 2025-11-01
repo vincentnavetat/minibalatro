@@ -3,6 +3,8 @@ require 'pry'
 class Balatro
   attr_reader :deck, :hand
 
+  HAND_SIZE = 7
+
   def initialize
     @deck = initialize_deck
     @hand = pick_hand
@@ -21,7 +23,7 @@ class Balatro
   end
 
   def pick_hand
-     [deck.first]
+    [deck.shift]
   end
 
   def show_hand
