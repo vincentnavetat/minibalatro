@@ -26,8 +26,8 @@ class Balatro
 
   def play
     puts "Here are your cards: #{show_hand}"
-    # number = STDIN.gets.chomp.to_i
-    # puts "You have a high card"
+    number = gets.chomp.to_i
+    puts "You have a high card"
   end
 
   private
@@ -46,5 +46,3 @@ class Balatro
     hand.join(" ")
   end
 end
-
-Balatro.new.play
