@@ -11,7 +11,7 @@ class Balatro
   end
 
   def play
-    "Here are your cards: #{show_hand}"
+    puts "Here are your cards: #{show_hand}"
   end
 
   private
@@ -38,3 +38,5 @@ class Balatro
     hand.join(" ")
   end
 end
+
+Balatro.new.play
