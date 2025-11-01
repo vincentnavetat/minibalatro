@@ -5,7 +5,7 @@ require_relative '../lib/balatro'
 
 class BalatroTest < Minitest::Test
   def test_game
-    expected = "Here are your cards"
+    expected = "Here are your cards: H1"
     assert_equal(
       expected,
       Balatro.new().play())
