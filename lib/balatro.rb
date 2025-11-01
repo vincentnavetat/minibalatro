@@ -26,7 +26,9 @@ class Balatro
     h = []
 
     HAND_SIZE.times do
-      h.push(deck.shift)
+      card = deck.delete_at(rand(0..(deck.size-1)))
+
+      h.push(card)
     end
 
     h
