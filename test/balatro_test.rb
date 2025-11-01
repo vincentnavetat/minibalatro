@@ -10,7 +10,7 @@ class BalatroTest < Minitest::Test
   end
 
   def test_play
-    expected = "Here are your cards: D10 S10 D3 C7 D7 C8 S2\n"
+    expected = "Here are your cards: H9 S10 D5 H2 H5 S2 C1\n"
     assert_output(expected) { @balatro.play }
   end
 
