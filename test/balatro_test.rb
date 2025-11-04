@@ -16,7 +16,7 @@ class BalatroTest < Minitest::Test
 
     expected_output = <<OUTPUT
 Here are your cards: H9 S10 D5 H2 H5 S2 C1
-You have a high card
+You have a high card and scored 0
 OUTPUT
 
     assert_output(expected_output) do
