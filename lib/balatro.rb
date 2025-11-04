@@ -42,7 +42,7 @@ class Figure
   private
 
   def name_from_cards(cards)
-    # hash = repeated_chars(cards)
+    hash = repeated_words(cards)
 
     case hash.size
     when 2
@@ -55,18 +55,15 @@ class Figure
   end
 
   def score_from_cards(cards, name)
-    # hash = repeated_chars(cards)
+    hash = repeated_words(cards)
 
     0
   end
 
-  def repeated_chars(str)
-    str.map { |c| c[1] }.join
-
-
+  def repeated_words(arr)
     counts = Hash.new(0)
-    str.each_char { |ch| counts[ch] += 1 }
-    counts.select { |_, v| v > 1 }.transform_keys(&:to_sym)
+    arr.each { |card| counts[card.number] += 1 }
+    counts.select { |_, v| v > 1 }
   end
 end
 
@@ -82,9 +79,9 @@ class Balatro
 
   def play
     puts "Here are your cards: #{show_hand}"
-    number = gets.chomp.to_i
+    card_positions = gets.sub! "\n", ""
 
-    played_cards = pick_cards(number)
+    played_cards = pick_cards(card_positions)
     played_figure = Figure.new(played_cards)
 
     # discard all cards
@@ -108,11 +105,7 @@ class Balatro
     hand.join(" ")
   end
 
-  def pick_cards(number)
-    [hand[number]]
-  end
-
-  def figure(played_cards)
-
+  def pick_cards(card_positions)
+    card_positions.chars.map { |index| hand[index.to_i] }
   end
 end
