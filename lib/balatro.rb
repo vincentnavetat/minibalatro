@@ -67,6 +67,28 @@ class Figure
   end
 end
 
+class Hand
+  attr_reader :cards
+
+  SIZE = 7
+
+  def initialize(deck)
+    @cards = []
+
+    pick(deck)
+  end
+
+  def pick(deck)
+    SIZE.times do
+      cards.push(deck.shift)
+    end
+  end
+
+  def show
+    cards.join(" ")
+  end
+end
+
 class Balatro
   attr_reader :deck, :hand
 
@@ -74,11 +96,11 @@ class Balatro
 
   def initialize
     @deck = Deck.new
-    @hand = pick_hand
+    @hand = Hand.new(deck)
   end
 
   def play
-    puts "Here are your cards: #{show_hand}"
+    puts "Here are your cards: #{hand.show}"
     card_positions = gets.sub! "\n", ""
 
     played_cards = pick_cards(card_positions)
@@ -91,21 +113,7 @@ class Balatro
 
   private
 
-  def pick_hand
-    h = []
-
-    HAND_SIZE.times do
-      h.push(deck.shift)
-    end
-
-    h
-  end
-
-  def show_hand
-    hand.join(" ")
-  end
-
   def pick_cards(card_positions)
-    card_positions.chars.map { |index| hand[index.to_i] }
+    card_positions.chars.map { |index| hand.cards[index.to_i] }
   end
 end
