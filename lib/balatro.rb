@@ -48,7 +48,7 @@ class Figure
   private
 
   def name_from_cards(cards)
-    hash = repeated_words(cards)
+    hash = cards_with_same_number(cards)
 
     case hash.size
     when 2
@@ -61,7 +61,7 @@ class Figure
   end
 
   def score_from_cards(cards, name)
-    hash = repeated_words(cards)
+    hash = cards_with_same_number(cards)
 
     score = 0
     hash.each do |key, value|
@@ -71,10 +71,69 @@ class Figure
     score * MULT[name.to_sym]
   end
 
-  def repeated_words(arr)
+  def cards_with_same_number(arr)
     counts = Hash.new(0)
     arr.each { |card| counts[card.number] += 1 }
     counts.select { |_, v| v > 1 }
+  end
+end
+
+class FigureFactory
+  def self.figure_for_cards(cards)
+    case scoring_cards(cards).size
+    when 4
+      DoublePair.new(cards)
+    when 2
+      Pair.new(cards)
+    else
+      HighCard.new(cards)
+    end
+  end
+
+  private
+
+  def self.scoring_cards(objects)
+    counts = Hash.new(0)
+    objects.each { |obj| counts[obj.number] += 1 }
+
+    duplicates = objects.select { |obj| counts[obj.number] >= 2 }
+
+    if duplicates.empty?
+      max_obj = objects.max_by { |obj| obj.number }
+      max_obj ? [max_obj] : []
+    else
+      duplicates
+    end
+  end
+end
+
+class FigureTemp
+  attr_reader :cards
+
+  def initialize(cards)
+    @cards = cards
+  end
+end
+
+class HighCard < FigureTemp
+  def score
+    cards.first
+  end
+end
+
+class Pair < FigureTemp
+  def score
+    10
+  end
+
+  def ==(other)
+    other.is_a?(Pair) && cards == other.cards
+  end
+end
+
+class DoublePair < FigureTemp
+  def score
+    20
   end
 end
 

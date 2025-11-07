@@ -58,3 +58,11 @@ class CardTest < Minitest::Test
     assert_equal("D2", Card.new("D", 2).to_s)
   end
 end
+
+class FigureFactoryTest < Minitest::Test
+  def test_pair
+    card_d2 = Card.new("D", 2)
+    card_h2 = Card.new("H", 2)
+    assert_equal(Pair.new([card_d2, card_h2]), FigureFactory.figure_for_cards([card_d2, card_h2]))
+  end
+end
