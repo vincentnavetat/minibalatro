@@ -30,6 +30,12 @@ end
 class Figure
   attr_reader :name, :score
 
+  MULT = {
+    "double pair": 2,
+    "pair": 2,
+    "high card": 1
+  }
+
   def initialize(cards)
     @name = name_from_cards(cards)
     @score = score_from_cards(cards, name)
@@ -57,7 +63,12 @@ class Figure
   def score_from_cards(cards, name)
     hash = repeated_words(cards)
 
-    0
+    score = 0
+    hash.each do |key, value|
+      score += key * value
+    end
+
+    score * MULT[name.to_sym]
   end
 
   def repeated_words(arr)

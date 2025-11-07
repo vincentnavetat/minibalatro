@@ -16,7 +16,7 @@ class BalatroTest < Minitest::Test
 
     expected_output = <<OUTPUT
 Here are your cards: H9 S10 D5 H2 H5 S2 C1
-You have a pair and scored 0
+You have a pair and scored 20
 OUTPUT
 
     assert_output(expected_output) do
@@ -33,15 +33,23 @@ end
 
 class FigureTest < Minitest::Test
   def test_high_card
-    assert_equal("high card", Figure.new([Card.new("D", 2), Card.new("H", 3)]).to_s)
+    high_card = Figure.new([Card.new("D", 2), Card.new("H", 3)])
+    assert_equal("high card", high_card.to_s)
+
+    # TODO: fix score to match highest card
+    assert_equal(0, high_card.score)
   end
 
   def test_pair
-    assert_equal("pair", Figure.new([Card.new("D", 2), Card.new("H", 2)]).to_s)
+    pair = Figure.new([Card.new("D", 2), Card.new("H", 2)])
+    assert_equal("pair", pair.to_s)
+    assert_equal(8, pair.score)
   end
 
   def test_double_pair
-    assert_equal("double pair", Figure.new([Card.new("D", 2), Card.new("H", 2), Card.new("C", 3), Card.new("S", 3)]).to_s)
+    double_pair = Figure.new([Card.new("D", 2), Card.new("H", 2), Card.new("C", 3), Card.new("S", 3)])
+    assert_equal("double pair", double_pair.to_s)
+    assert_equal(20, double_pair.score)
   end
 end
 
