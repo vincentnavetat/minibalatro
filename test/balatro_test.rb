@@ -31,28 +31,6 @@ OUTPUT
   end
 end
 
-class FigureTest < Minitest::Test
-  def test_high_card
-    high_card = Figure.new([Card.new("D", 2), Card.new("H", 3)])
-    assert_equal("high card", high_card.to_s)
-
-    # TODO: fix score to match highest card
-    assert_equal(0, high_card.score)
-  end
-
-  def test_pair
-    pair = Figure.new([Card.new("D", 2), Card.new("H", 2)])
-    assert_equal("pair", pair.to_s)
-    assert_equal(8, pair.score)
-  end
-
-  def test_double_pair
-    double_pair = Figure.new([Card.new("D", 2), Card.new("H", 2), Card.new("C", 3), Card.new("S", 3)])
-    assert_equal("double pair", double_pair.to_s)
-    assert_equal(20, double_pair.score)
-  end
-end
-
 class CardTest < Minitest::Test
   def test_card
     assert_equal("D2", Card.new("D", 2).to_s)
@@ -60,9 +38,22 @@ class CardTest < Minitest::Test
 end
 
 class FigureFactoryTest < Minitest::Test
+  def test_double_pair
+    card_d2 = Card.new("D", 2)
+    card_h2 = Card.new("H", 2)
+    card_s3 = Card.new("S", 3)
+    card_c3 = Card.new("C", 3)
+    assert_equal(DoublePair.new([card_d2, card_h2, card_s3, card_c3]), FigureFactory.figure_for_cards([card_d2, card_h2, card_s3, card_c3]))
+  end
+
   def test_pair
     card_d2 = Card.new("D", 2)
     card_h2 = Card.new("H", 2)
     assert_equal(Pair.new([card_d2, card_h2]), FigureFactory.figure_for_cards([card_d2, card_h2]))
+  end
+
+  def test_high_card
+    card_d2 = Card.new("D", 2)
+    assert_equal(HighCard.new([card_d2]), FigureFactory.figure_for_cards([card_d2]))
   end
 end

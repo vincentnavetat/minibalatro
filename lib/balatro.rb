@@ -27,57 +27,6 @@ class Card
   end
 end
 
-class Figure
-  attr_reader :name, :score
-
-  MULT = {
-    "double pair": 2,
-    "pair": 2,
-    "high card": 1
-  }
-
-  def initialize(cards)
-    @name = name_from_cards(cards)
-    @score = score_from_cards(cards, name)
-  end
-
-  def to_s
-    name
-  end
-
-  private
-
-  def name_from_cards(cards)
-    hash = cards_with_same_number(cards)
-
-    case hash.size
-    when 2
-      "double pair"
-    when 1
-      "pair"
-    else
-      "high card"
-    end
-  end
-
-  def score_from_cards(cards, name)
-    hash = cards_with_same_number(cards)
-
-    score = 0
-    hash.each do |key, value|
-      score += key * value
-    end
-
-    score * MULT[name.to_sym]
-  end
-
-  def cards_with_same_number(arr)
-    counts = Hash.new(0)
-    arr.each { |card| counts[card.number] += 1 }
-    counts.select { |_, v| v > 1 }
-  end
-end
-
 class FigureFactory
   def self.figure_for_cards(cards)
     case scoring_cards(cards).size
@@ -107,7 +56,7 @@ class FigureFactory
   end
 end
 
-class FigureTemp
+class Figure
   attr_reader :cards
 
   def initialize(cards)
@@ -115,15 +64,27 @@ class FigureTemp
   end
 end
 
-class HighCard < FigureTemp
+class HighCard < Figure
+  def to_s
+    "high card"
+  end
+
   def score
     cards.first
   end
+
+  def ==(other)
+    other.is_a?(HighCard) && cards == other.cards
+  end
 end
 
-class Pair < FigureTemp
+class Pair < Figure
+  def to_s
+    "pair"
+  end
+
   def score
-    10
+    20
   end
 
   def ==(other)
@@ -131,9 +92,17 @@ class Pair < FigureTemp
   end
 end
 
-class DoublePair < FigureTemp
+class DoublePair < Figure
+  def to_s
+    "double pair"
+  end
+
   def score
     20
+  end
+
+  def ==(other)
+    other.is_a?(DoublePair) && cards == other.cards
   end
 end
 
@@ -174,7 +143,7 @@ class Balatro
     card_positions = gets.sub! "\n", ""
 
     played_cards = pick_cards(card_positions)
-    played_figure = Figure.new(played_cards)
+    played_figure = FigureFactory.figure_for_cards(played_cards)
 
     # discard all cards
 
