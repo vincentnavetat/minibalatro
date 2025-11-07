@@ -37,6 +37,25 @@ class CardTest < Minitest::Test
   end
 end
 
+class HighCardTest < Minitest::Test
+  def test_score
+    assert_equal(5, HighCard.new([Card.new("D", 5)]).score)
+  end
+end
+
+class PairTest < Minitest::Test
+  def test_score
+    assert_equal(20, Pair.new([Card.new("D", 5), Card.new("S", 5)]).score)
+    assert_equal(28, Pair.new([Card.new("H", 7), Card.new("C", 7)]).score)
+  end
+end
+
+class DoublePairTest < Minitest::Test
+  def test_score
+    assert_equal(48, Pair.new([Card.new("D", 5), Card.new("S", 5), Card.new("H", 7), Card.new("C", 7)]).score)
+  end
+end
+
 class FigureFactoryTest < Minitest::Test
   def test_double_pair
     card_d2 = Card.new("D", 2)

@@ -62,6 +62,18 @@ class Figure
   def initialize(cards)
     @cards = cards
   end
+
+  def to_s
+    raise NotImplementedError
+  end
+
+  def multiplier
+    raise NotImplementedError
+  end
+
+  def score
+    raise NotImplementedError
+  end
 end
 
 class HighCard < Figure
@@ -69,8 +81,12 @@ class HighCard < Figure
     "high card"
   end
 
+  def multiplier
+    1
+  end
+
   def score
-    cards.first
+    cards.first.number * multiplier
   end
 
   def ==(other)
@@ -83,8 +99,14 @@ class Pair < Figure
     "pair"
   end
 
+  def multiplier
+    2
+  end
+
   def score
-    20
+    score = 0
+    cards.each { |card| score += card.number }
+    score * multiplier
   end
 
   def ==(other)
@@ -97,8 +119,14 @@ class DoublePair < Figure
     "double pair"
   end
 
+  def multiplier
+    2
+  end
+
   def score
-    20
+    score = 0
+    cards.each { |card| score += card.number }
+    score * multiplier
   end
 
   def ==(other)
