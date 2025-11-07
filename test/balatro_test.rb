@@ -44,3 +44,9 @@ class FigureTest < Minitest::Test
     assert_equal("double pair", Figure.new([Card.new("D", 2), Card.new("H", 2), Card.new("C", 3), Card.new("S", 3)]).to_s)
   end
 end
+
+class CardTest < Minitest::Test
+  def test_card
+    assert_equal("D2", Card.new("D", 2).to_s)
+  end
+end
