@@ -46,3 +46,17 @@ OUTPUT
     assert_equal(33, @balatro.deck.size)
   end
 end
+
+class FigureTest < Minitest::Test
+  def test_high_card
+    assert_equal("high card", Figure.new([Card.new("D", 2), Card.new("H", 3)]).to_s)
+  end
+
+  def test_pair
+    assert_equal("pair", Figure.new([Card.new("D", 2), Card.new("H", 2)]).to_s)
+  end
+
+  def test_double_pair
+    assert_equal("double pair", Figure.new([Card.new("D", 2), Card.new("H", 2), Card.new("C", 3), Card.new("S", 3)]).to_s)
+  end
+end
